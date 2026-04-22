@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/aep/normalized-risk-report.schema.json",
+  "title": "Normalized Risk Report",
+  "type": "object",
+  "required": [
+    "scanner",
+    "scan_id",
+    "generated_at",
+    "findings"
+  ],
+  "properties": {
+    "scanner": { "type": "string" },
+    "scan_id": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "risk_id",
+          "source",
+          "severity",
+          "category",
+          "target",
+          "message"
+        ],
+        "properties": {
+          "risk_id": { "type": "string" },
+          "source": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "info",
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "category": { "type": "string" },
+          "target": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

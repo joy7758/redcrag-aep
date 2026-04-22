@@ -1,0 +1,16 @@
+{
+  "tool_risk_scan": {
+    "scanner_name": "hackmyagent",
+    "scan_id": "hma-demo-001",
+    "generated_at": "2026-01-01T00:00:00Z",
+    "issues": [
+      {
+        "id": "RISK-001",
+        "level": "high",
+        "kind": "over-permissioned-tool",
+        "tool_name": "write_file",
+        "detail": "Tool write_file can modify local files."
+      }
+    ]
+  }
+}

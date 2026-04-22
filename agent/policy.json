@@ -1,0 +1,12 @@
+{
+  "policy_id": "policy-demo-001",
+  "allowed_tools": [
+    "read_file",
+    "summarize_text"
+  ],
+  "denied_tools": [
+    "write_file",
+    "shell_exec",
+    "send_email"
+  ]
+}

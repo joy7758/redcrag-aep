@@ -1,0 +1,13 @@
+# Positioning Matrix
+
+| Area | Primary concern | What it provides | What it does not provide for AEP's goal | How AEP relates |
+| --- | --- | --- | --- | --- |
+| Provenance | Describing relationships among entities, activities, and agents. | Conceptual basis for recording how artifacts and actions relate. | Does not by itself define policy decisions, risk linkage, or PASS/WARN/FAIL validation. | AEP uses provenance-like evidence relationships but adds risk and policy validation fields. |
+| Audit logging | Recording events for later review. | Event records and review trail. | Does not necessarily bind scanner findings or produce accountability states. | AEP records event evidence but structures it around tool attempts, risk references, and validator outcomes. |
+| Secure logging | Making logs integrity-aware or tamper-evident. | Integrity mechanisms for event records. | Does not decide whether a risk was triggered or a policy violation occurred. | AEP uses hash-chained events and event log hashing as part of a broader evidence profile. |
+| Static analysis / SARIF | Reporting potential defects or risks before execution. | Standardizable pre-execution findings and result interchange. | Does not prove concrete runtime behavior. | AEP can consume normalized findings now and may map SARIF to `risk_links` later. |
+| Agent security scanning | Identifying risky tools, permissions, configurations, or deployment settings. | Potential risk identification. | Does not show what happened in a specific run. | AEP complements scanner output with runtime evidence and risk-trigger linkage. |
+| Policy enforcement | Deciding whether actions are allowed or denied. | Runtime allow/deny decisions and enforcement. | Does not preserve scanner linkage or manifest-level evidence object shape by itself. | AEP records policy decisions and execution status as evidence for validation. |
+| FDO / FAIR Digital Objects | Identifiable, typed, metadata-bearing digital objects. | Framing for object identifiers, profiles, metadata, and relations. | Does not define this agent execution evidence profile or implement validation semantics. | AEP shapes the bundle as a future FDO-style evidence object. |
+| Data spaces | Controlled and trusted data exchange. | Governance context for sharing and preserving evidence. | Does not provide the AEP bundle/event model or validator. | AEP offers an evidence object shape that could support accountable automated operations. |
+| Risk-linked AEP | Linking potential risk to actual execution evidence. | Minimal bundle, event log, risk linkage, validator result. | Production scanner, registry, full policy language, real deployment benchmark. | Proposed bridge layer. |
