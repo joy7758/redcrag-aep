@@ -1,5 +1,24 @@
 # Risk-linked Agent Evidence Profile Demo
 
+## Project Status
+
+**v0.1-review frozen artifact**  
+Tag: `v0.1-review`  
+Commit: `841f7d6`  
+Demo: PASS / WARN / FAIL reproducible  
+Acceptance: PASS  
+
+This repository contains a minimal research prototype for a **Risk-linked Agent Evidence Profile (AEP)**. It links pre-execution risk findings with runtime execution evidence and validates executions as PASS, WARN, or FAIL.
+
+Not a production system. Not a compliance tool. Not a real scanner, SARIF, MCP, FDO registry, or data-space implementation.
+
+Recommended entry points:
+
+- `REVIEW_HANDOFF.md`
+- `release/v0.1-review/README.md`
+- `paper/aep-profile-v0.1.md`
+- `paper/draft/full-paper-draft.md`
+
 ## Problem
 
 Security scanners can identify potential risks, but they do not prove what actually happened during an agent execution.
