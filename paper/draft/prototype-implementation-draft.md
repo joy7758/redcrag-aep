@@ -81,6 +81,8 @@ The collector hashes inputs and outputs rather than storing full content in the 
 
 The collector also maintains the event hash chain. Each event records `prev_event_hash`, and the event itself receives an `event_hash`. After tool calls finish, the collector writes `aep-events.jsonl` and generates `aep-bundle.json`.
 
+The prototype assumes that tool calls are mediated by the AEP collector. It does not address bypass resistance, collector compromise, or enforcement outside the instrumented runtime. These assumptions are acceptable for the deterministic prototype but must be revisited before deployment-oriented use.
+
 [Repository: collector/aep_collector.py] [Repository: collector/hash_chain.py] [Repository: paper/aep-profile-v0.1.md]
 
 ## 4.6 Hash Chain and Demo Signing
