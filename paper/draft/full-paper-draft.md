@@ -700,6 +700,8 @@ The result should be interpreted as a controlled demonstration of evidence linka
 
 The limitations are intentional and reflect the narrow scope of the research prototype. The prototype is designed to make the evidence-linkage concept reviewable, not to provide a complete operational system [Repository: paper/research-scope.md].
 
+Manual polishing note: repeated non-claims should be compressed before submission. Keep one concise non-claim statement in the introduction, preserve the detailed boundary discussion in the limitations section, and use only a short reminder in the conclusion.
+
 ## 7.1 Implementation Limits
 
 The implementation uses a deterministic non-LLM agent and a small tool set. It includes `read_file`, `summarize_text`, and `write_file`. This is sufficient for the PASS/WARN/FAIL scenarios but does not represent the range of tools available to deployed agents.
@@ -780,5 +782,6 @@ The current version has clear boundaries. It has no real scanner integration, no
 
 - Source IDs such as `[SRC-SARIF]` refer to `paper/references/source-inventory.md` and require manual conversion to final citation format.
 - Repository references such as `[Repository: paper/aep-profile-v0.1.md]` refer to local project artifacts and require final artifact citation or appendix treatment.
+- In this draft, source IDs and repository references serve as review placeholders only; final bibliography entries and artifact citations should be added only after manual verification.
 - This draft does not contain a finalized bibliography.
 - No production readiness, compliance certification, real-world benchmark, or full standards integration is claimed.

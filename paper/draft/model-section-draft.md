@@ -2,6 +2,8 @@
 
 This is a controlled model-section draft based on `paper/aep-profile-v0.1.md`. It should remain consistent with the AEP v0.1 profile and must not introduce new profile requirements without later review.
 
+Citation and artifact note: repository references in this draft are placeholders for review. They should be converted into final artifact citations, appendix references, or supplementary-material references before submission.
+
 ## 3. Risk-linked AEP Model
 
 Risk-linked AEP defines a minimal evidence profile for agent execution accountability. It separates manifest-level evidence from event-level execution evidence, and it links pre-execution risk findings to runtime tool-call evidence. The model is intentionally small and reviewable: its purpose is to support evidence linkage and validation, not to define a complete platform or production trust framework [Repository: paper/aep-profile-v0.1.md].

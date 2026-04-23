@@ -2,6 +2,8 @@
 
 This is a controlled implementation-section draft based on the current repository. It documents the deterministic research prototype and must not be read as a production architecture or deployment guide.
 
+Citation and artifact note: repository references in this draft are placeholders for review. They should be converted into final artifact citations, appendix references, or supplementary-material references before submission.
+
 ## 4. Prototype Implementation
 
 The prototype implements the minimum path from scanner finding to execution evidence to validator result. It is deterministic, uses Python standard library only, and does not call an LLM. It does not implement real scanner integration, SARIF parsing, MCP runtime, FDO registry, IDS connector, or production signing. Its purpose is to make the AEP model reviewable and reproducible [Repository: README.md] [Repository: REVIEW_PACK.md].

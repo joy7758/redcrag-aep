@@ -2,6 +2,8 @@
 
 This is a controlled evaluation-section draft based on the deterministic repository demo. It documents what the prototype demonstrates under controlled conditions and must not be read as a real-world benchmark or production validation.
 
+Citation and artifact note: repository references in this draft are placeholders for review. They should be converted into final artifact citations, appendix references, or supplementary-material references before submission.
+
 ## 5. Evaluation
 
 The evaluation checks whether the prototype distinguishes three accountability states: safe execution, potential-but-untriggered risk, and triggered violation. The evaluation is deterministic and reproducible. It is not a real-world deployment benchmark, and it does not measure scanner quality, model quality, performance, or scalability [Repository: paper/evaluation-section.md].
