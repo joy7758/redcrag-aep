@@ -2,6 +2,8 @@
 
 This is a controlled implementation-section draft based on the current repository. It documents the deterministic research prototype and must not be read as a production architecture or deployment guide.
 
+Citation and artifact note: repository references in this draft are placeholders for review. They should be converted into final artifact citations, appendix references, or supplementary-material references before submission.
+
 ## 4. Prototype Implementation
 
 The prototype implements the minimum path from scanner finding to execution evidence to validator result. It is deterministic, uses Python standard library only, and does not call an LLM. It does not implement real scanner integration, SARIF parsing, MCP runtime, FDO registry, IDS connector, or production signing. Its purpose is to make the AEP model reviewable and reproducible [Repository: README.md] [Repository: REVIEW_PACK.md].
@@ -80,6 +82,8 @@ For allowed tools, the collector executes the tool and records the output hash. 
 The collector hashes inputs and outputs rather than storing full content in the event log. It attaches `risk_refs` by matching a risk finding target to `event.tool`. This implements the current target-to-tool risk linkage model.
 
 The collector also maintains the event hash chain. Each event records `prev_event_hash`, and the event itself receives an `event_hash`. After tool calls finish, the collector writes `aep-events.jsonl` and generates `aep-bundle.json`.
+
+The prototype assumes that tool calls are mediated by the AEP collector. It does not address bypass resistance, collector compromise, or enforcement outside the instrumented runtime. These assumptions are acceptable for the deterministic prototype but must be revisited before deployment-oriented use.
 
 [Repository: collector/aep_collector.py] [Repository: collector/hash_chain.py] [Repository: paper/aep-profile-v0.1.md]
 

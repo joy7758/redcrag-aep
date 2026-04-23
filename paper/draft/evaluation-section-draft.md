@@ -2,6 +2,8 @@
 
 This is a controlled evaluation-section draft based on the deterministic repository demo. It documents what the prototype demonstrates under controlled conditions and must not be read as a real-world benchmark or production validation.
 
+Citation and artifact note: repository references in this draft are placeholders for review. They should be converted into final artifact citations, appendix references, or supplementary-material references before submission.
+
 ## 5. Evaluation
 
 The evaluation checks whether the prototype distinguishes three accountability states: safe execution, potential-but-untriggered risk, and triggered violation. The evaluation is deterministic and reproducible. It is not a real-world deployment benchmark, and it does not measure scanner quality, model quality, performance, or scalability [Repository: paper/evaluation-section.md].
@@ -66,6 +68,8 @@ Result aggregation is simple. The validator returns FAIL if any rule fails. It r
 
 In the WARN scenario, the warning comes primarily from a high-risk finding that is not triggered. In the FAIL scenario, failure comes from attempted denied tool use and a high-risk target attempt.
 
+A denied tool attempt is treated as a policy violation even when the enforcement layer successfully blocks side effects. The reason is that the attempt itself is part of the execution evidence and is relevant to accountability.
+
 | Rule | Role in evaluation |
 | --- | --- |
 | `V1_SCHEMA_MINIMAL` | Confirms required bundle and event fields exist. |
@@ -98,6 +102,8 @@ PASS demonstrates normal evidence generation. The collector records allowed tool
 WARN demonstrates that potential risk and actual execution should not be conflated. The scanner finding exists, but the event log does not show `write_file` being attempted. The validator therefore preserves the distinction between a risk that may matter and a risk that was triggered in a concrete run.
 
 FAIL demonstrates that a denied high-risk action can be recorded as an attempted violation even when blocked. The collector prevents actual `write_file` execution, but the event log still records the attempt, the deny decision, the blocked status, and the risk reference.
+
+This is why the FAIL scenario is not reduced to WARN. WARN indicates that a high-risk finding exists without a runtime trigger; FAIL indicates that the denied high-risk target was attempted, even though side effects were blocked.
 
 The evaluation demonstrates the value of linking scanner findings to runtime evidence. Without this linkage, a reviewer would see either a scanner finding or a runtime trace, but not the relationship between them. With AEP, the reviewer can inspect event-level and bundle-level evidence together.
 

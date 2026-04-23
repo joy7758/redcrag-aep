@@ -196,6 +196,10 @@ The following table summarizes the bundle fields and their review role.
 
 `risk_links` preserve normalized scanner findings at the bundle level. This keeps the pre-execution risk context with the evidence object and avoids relying on an external scanner report alone during review. `evidence.event_log_hash` binds the bundle to the event log. `integrity.signature` is demo HMAC only and is not production key management [Repository: paper/aep-profile-v0.1.md].
 
+AEP v0.1 treats the bundle and event fields described in the profile as required for the deterministic validator used in this prototype. Future versions may distinguish required, recommended, and optional fields more formally, but v0.1 uses a minimal required shape to keep validation reviewable.
+
+In v0.1, `policy.policy_id` is recorded as review context for validator interpretation. It is not bound to an externally registered, signed, or independently resolvable policy object. Future work may bind policy references to governance objects or registry-managed identifiers.
+
 ## 3.3 Event Model
 
 The event log is the event-level execution evidence. Each event represents a tool-call attempt and records both the policy decision and the execution outcome. In the prototype, the event log is serialized as JSONL in `aep-events.jsonl`.
@@ -234,6 +238,8 @@ The integrity model gives the event trace a minimal tamper-evident structure. `e
 
 The bundle also contains demo HMAC signature metadata. This signature is an authenticity marker only. The current version does not claim production-grade cryptography, external timestamping, registry-backed integrity, or production key management [Repository: paper/aep-profile-v0.1.md].
 
+Hashing inputs and outputs reduces the amount of raw content stored in the event log, but it is not a privacy-preserving disclosure mechanism. Hashes may still reveal equality, support guessing in small input spaces, or require additional controls such as salting, redaction, or selective disclosure in future versions.
+
 ## 3.5 Risk Linkage Model
 
 Scanner findings describe potential risks. In AEP v0.1, normalized scanner findings include a target field. The current prototype maps that target to `event.tool`, which is sufficient to demonstrate whether a risk target was attempted during execution.
@@ -250,7 +256,7 @@ The following table summarizes the accountability states supported by the risk l
 | WARN | High-risk finding exists. | Risk target is not attempted. | Potential risk exists but is not triggered. |
 | FAIL | High-risk finding exists. | Risk target is attempted or policy violation is observed. | Execution is not acceptable under current rules. |
 
-The risk linkage model is intentionally simple. It uses direct target-to-tool matching and does not implement SARIF mapping, capability ontologies, or complex scanner semantics. Those are outside v0.1 and remain future work [Repository: paper/aep-profile-v0.1.md] [Repository: paper/validator-rules.md] [Repository: paper/evaluation-section.md].
+The risk linkage model is intentionally simple. It uses direct matching between a normalized scanner finding target and `event.tool`. This is simpler than a general capability, permission, endpoint, or SARIF-location mapping. More expressive target namespaces are outside v0.1 and remain future profile work [Repository: paper/aep-profile-v0.1.md] [Repository: paper/validator-rules.md] [Repository: paper/evaluation-section.md].
 
 ## 3.6 Validator-facing Semantics
 
@@ -267,13 +273,15 @@ The six validator rule IDs are:
 - `V5_RISK_TRIGGER`
 - `V6_DENIED_TOOL_BLOCKED`
 
-A blocked denied action can still produce FAIL because the attempted action is evidence of policy violation. The blocked status remains important because it shows that actual execution did not occur. Thus the validator distinguishes enforcement success from execution acceptability [Repository: paper/validator-rules.md].
+A blocked denied action can still produce FAIL because the attempted action is evidence of policy violation. A denied tool attempt is treated as a policy violation even when the enforcement layer successfully blocks side effects. The blocked status remains important because it shows that actual execution did not occur. Thus the validator distinguishes enforcement success from execution acceptability [Repository: paper/validator-rules.md].
 
 ## 3.7 FDO / Data-space Interpretation
 
 The AEP bundle can be interpreted as a future FDO-style evidence object shape. It contains an evidence object identifier, profile metadata, execution metadata, integrity references, policy context, and risk links. These fields allow the bundle to be discussed in FDO and data-space terms without implementing the surrounding infrastructure.
 
 `bundle_id` can serve as an evidence object identifier. `fdo.profile_type` and `fdo.profile_version` declare profile information. `event_log_hash` provides an integrity reference to the execution trace. `risk_links` and `policy.policy_id` act as relation points to risk and governance objects.
+
+The `policy.policy_id` relation point should be read as review context in v0.1, not as an implemented registry binding or signed policy-object reference. The current prototype records which policy context was used for validation, but it does not make that policy externally resolvable or independently authenticated.
 
 | AEP element | FDO/data-space interpretation |
 | --- | --- |
@@ -374,6 +382,8 @@ For allowed tools, the collector executes the tool and records the output hash. 
 The collector hashes inputs and outputs rather than storing full content in the event log. It attaches `risk_refs` by matching a risk finding target to `event.tool`. This implements the current target-to-tool risk linkage model.
 
 The collector also maintains the event hash chain. Each event records `prev_event_hash`, and the event itself receives an `event_hash`. After tool calls finish, the collector writes `aep-events.jsonl` and generates `aep-bundle.json`.
+
+The prototype assumes that tool calls are mediated by the AEP collector. It does not address bypass resistance, collector compromise, or enforcement outside the instrumented runtime. These assumptions are acceptable for the deterministic prototype but must be revisited before deployment-oriented use.
 
 [Repository: collector/aep_collector.py] [Repository: collector/hash_chain.py] [Repository: paper/aep-profile-v0.1.md]
 
@@ -522,6 +532,8 @@ Result aggregation is simple. The validator returns FAIL if any rule fails. It r
 
 In the WARN scenario, the warning comes primarily from a high-risk finding that is not triggered. In the FAIL scenario, failure comes from attempted denied tool use and a high-risk target attempt.
 
+A denied tool attempt is treated as a policy violation even when the enforcement layer successfully blocks side effects. The reason is that the attempt itself is part of the execution evidence and is relevant to accountability.
+
 | Rule | Role in evaluation |
 | --- | --- |
 | `V1_SCHEMA_MINIMAL` | Confirms required bundle and event fields exist. |
@@ -554,6 +566,8 @@ PASS demonstrates normal evidence generation. The collector records allowed tool
 WARN demonstrates that potential risk and actual execution should not be conflated. The scanner finding exists, but the event log does not show `write_file` being attempted. The validator therefore preserves the distinction between a risk that may matter and a risk that was triggered in a concrete run.
 
 FAIL demonstrates that a denied high-risk action can be recorded as an attempted violation even when blocked. The collector prevents actual `write_file` execution, but the event log still records the attempt, the deny decision, the blocked status, and the risk reference.
+
+This is why the FAIL scenario is not reduced to WARN. WARN indicates that a high-risk finding exists without a runtime trigger; FAIL indicates that the denied high-risk target was attempted, even though side effects were blocked.
 
 The evaluation demonstrates the value of linking scanner findings to runtime evidence. Without this linkage, a reviewer would see either a scanner finding or a runtime trace, but not the relationship between them. With AEP, the reviewer can inspect event-level and bundle-level evidence together.
 
@@ -628,6 +642,8 @@ The three-state result is intentionally simple. The goal is interpretability and
 
 The WARN state is especially useful for avoiding unnecessary escalation from scanner output alone. A high-risk finding remains relevant, but the execution evidence can show that the risk target was not attempted in that run. The FAIL state captures the opposite case: the evidence shows an attempted denied action or another rule failure. The validator therefore separates evidence interpretation from both scanner reporting and policy enforcement.
 
+A denied tool attempt is treated as a policy violation even when the enforcement layer successfully blocks side effects. The attempt itself is part of the execution evidence and is relevant to accountability, while the blocked status records that the side effect did not occur.
+
 | Result | Meaning in this prototype | What it does not mean |
 | --- | --- | --- |
 | PASS | No rule failure or warning under the current validator rules. | Not a guarantee of safety in real deployments. |
@@ -645,6 +661,8 @@ This structure is relevant to FDO/data-space contexts because evidence objects m
 The current contribution is object shaping and evidence linkage, not infrastructure implementation. AEP does not implement an FDO registry, PID binding, IDS connector, data usage control, or data-space infrastructure.
 
 This boundary keeps the FDO/data-space discussion at the level of evidence-object shape. The prototype shows which fields might be useful for later preservation and exchange: an identifier, profile declaration, event-log integrity reference, risk references, policy reference, and authenticity placeholder. It does not define how such an object would be registered, resolved, governed, or exchanged in an operational data space.
+
+The policy reference has the same boundary. In v0.1, `policy.policy_id` is review context for validator interpretation, not a binding to an externally registered, signed, or independently resolvable policy object.
 
 | AEP element | Discussion relevance |
 | --- | --- |
@@ -682,11 +700,13 @@ The result should be interpreted as a controlled demonstration of evidence linka
 
 The limitations are intentional and reflect the narrow scope of the research prototype. The prototype is designed to make the evidence-linkage concept reviewable, not to provide a complete operational system [Repository: paper/research-scope.md].
 
+Manual polishing note: repeated non-claims should be compressed before submission. Keep one concise non-claim statement in the introduction, preserve the detailed boundary discussion in the limitations section, and use only a short reminder in the conclusion.
+
 ## 7.1 Implementation Limits
 
 The implementation uses a deterministic non-LLM agent and a small tool set. It includes `read_file`, `summarize_text`, and `write_file`. This is sufficient for the PASS/WARN/FAIL scenarios but does not represent the range of tools available to deployed agents.
 
-The policy model is a simple allow/deny list. It does not implement a semantic policy language, temporal policy logic, XACML, ABAC, or obligations. The risk linkage model is direct target-to-tool matching.
+The policy model is a simple allow/deny list. It does not implement a semantic policy language, temporal policy logic, XACML, ABAC, or obligations. The risk linkage model is direct target-to-tool matching between a normalized scanner finding target and `event.tool`. It does not implement general capability, permission, endpoint, or SARIF-location mapping.
 
 The scanner reports are synthetic. The implementation includes no real scanner integration, no SARIF parser, and no scanner quality evaluation. It also includes no MCP runtime, database, web UI, Docker deployment, or production signing.
 
@@ -721,6 +741,10 @@ The standards-facing interpretation is therefore provisional. It identifies the 
 The prototype uses demo HMAC only. It has no production key management, no external timestamping, no revocation, no secure storage, and no privacy-preserving disclosure.
 
 It also performs no adversary emulation and provides no real tamper-resistance beyond local hash checks. The hash chain and event log hash support local review, but they are not a complete secure logging or trust infrastructure.
+
+The prototype assumes that tool calls are mediated by the AEP collector. It does not address bypass resistance, collector compromise, or enforcement outside the instrumented runtime. These assumptions are acceptable for the deterministic prototype but must be revisited before deployment-oriented use.
+
+Hashing inputs and outputs reduces the amount of raw content stored in the event log, but it is not a privacy-preserving disclosure mechanism. Hashes may still reveal equality, support guessing in small input spaces, or require additional controls such as salting, redaction, or selective disclosure in future versions.
 
 The prototype does not claim to prevent attacks. It records and validates evidence under controlled conditions. It should not be read as a complete trust, security, or incident-response framework [Repository: paper/aep-profile-v0.1.md] [Repository: paper/research-scope.md].
 
@@ -758,5 +782,6 @@ The current version has clear boundaries. It has no real scanner integration, no
 
 - Source IDs such as `[SRC-SARIF]` refer to `paper/references/source-inventory.md` and require manual conversion to final citation format.
 - Repository references such as `[Repository: paper/aep-profile-v0.1.md]` refer to local project artifacts and require final artifact citation or appendix treatment.
+- In this draft, source IDs and repository references serve as review placeholders only; final bibliography entries and artifact citations should be added only after manual verification.
 - This draft does not contain a finalized bibliography.
 - No production readiness, compliance certification, real-world benchmark, or full standards integration is claimed.

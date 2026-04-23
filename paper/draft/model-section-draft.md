@@ -2,6 +2,8 @@
 
 This is a controlled model-section draft based on `paper/aep-profile-v0.1.md`. It should remain consistent with the AEP v0.1 profile and must not introduce new profile requirements without later review.
 
+Citation and artifact note: repository references in this draft are placeholders for review. They should be converted into final artifact citations, appendix references, or supplementary-material references before submission.
+
 ## 3. Risk-linked AEP Model
 
 Risk-linked AEP defines a minimal evidence profile for agent execution accountability. It separates manifest-level evidence from event-level execution evidence, and it links pre-execution risk findings to runtime tool-call evidence. The model is intentionally small and reviewable: its purpose is to support evidence linkage and validation, not to define a complete platform or production trust framework [Repository: paper/aep-profile-v0.1.md].
@@ -39,6 +41,10 @@ The following table summarizes the bundle fields and their review role.
 | `integrity` | Records signature metadata. | Provides a location for authenticity evidence. |
 
 `risk_links` preserve normalized scanner findings at the bundle level. This keeps the pre-execution risk context with the evidence object and avoids relying on an external scanner report alone during review. `evidence.event_log_hash` binds the bundle to the event log. `integrity.signature` is demo HMAC only and is not production key management [Repository: paper/aep-profile-v0.1.md].
+
+AEP v0.1 treats the bundle and event fields described in the profile as required for the deterministic validator used in this prototype. Future versions may distinguish required, recommended, and optional fields more formally, but v0.1 uses a minimal required shape to keep validation reviewable.
+
+In v0.1, `policy.policy_id` is recorded as review context for validator interpretation. It is not bound to an externally registered, signed, or independently resolvable policy object. Future work may bind policy references to governance objects or registry-managed identifiers.
 
 ## 3.3 Event Model
 
@@ -78,6 +84,8 @@ The integrity model gives the event trace a minimal tamper-evident structure. `e
 
 The bundle also contains demo HMAC signature metadata. This signature is an authenticity marker only. The current version does not claim production-grade cryptography, external timestamping, registry-backed integrity, or production key management [Repository: paper/aep-profile-v0.1.md].
 
+Hashing inputs and outputs reduces the amount of raw content stored in the event log, but it is not a privacy-preserving disclosure mechanism. Hashes may still reveal equality, support guessing in small input spaces, or require additional controls such as salting, redaction, or selective disclosure in future versions.
+
 ## 3.5 Risk Linkage Model
 
 Scanner findings describe potential risks. In AEP v0.1, normalized scanner findings include a target field. The current prototype maps that target to `event.tool`, which is sufficient to demonstrate whether a risk target was attempted during execution.
@@ -94,7 +102,7 @@ The following table summarizes the accountability states supported by the risk l
 | WARN | High-risk finding exists. | Risk target is not attempted. | Potential risk exists but is not triggered. |
 | FAIL | High-risk finding exists. | Risk target is attempted or policy violation is observed. | Execution is not acceptable under current rules. |
 
-The risk linkage model is intentionally simple. It uses direct target-to-tool matching and does not implement SARIF mapping, capability ontologies, or complex scanner semantics. Those are outside v0.1 and remain future work [Repository: paper/aep-profile-v0.1.md] [Repository: paper/validator-rules.md] [Repository: paper/evaluation-section.md].
+The risk linkage model is intentionally simple. It uses direct matching between a normalized scanner finding target and `event.tool`. This is simpler than a general capability, permission, endpoint, or SARIF-location mapping. More expressive target namespaces are outside v0.1 and remain future profile work [Repository: paper/aep-profile-v0.1.md] [Repository: paper/validator-rules.md] [Repository: paper/evaluation-section.md].
 
 ## 3.6 Validator-facing Semantics
 
@@ -111,13 +119,15 @@ The six validator rule IDs are:
 - `V5_RISK_TRIGGER`
 - `V6_DENIED_TOOL_BLOCKED`
 
-A blocked denied action can still produce FAIL because the attempted action is evidence of policy violation. The blocked status remains important because it shows that actual execution did not occur. Thus the validator distinguishes enforcement success from execution acceptability [Repository: paper/validator-rules.md].
+A blocked denied action can still produce FAIL because the attempted action is evidence of policy violation. A denied tool attempt is treated as a policy violation even when the enforcement layer successfully blocks side effects. The blocked status remains important because it shows that actual execution did not occur. Thus the validator distinguishes enforcement success from execution acceptability [Repository: paper/validator-rules.md].
 
 ## 3.7 FDO / Data-space Interpretation
 
 The AEP bundle can be interpreted as a future FDO-style evidence object shape. It contains an evidence object identifier, profile metadata, execution metadata, integrity references, policy context, and risk links. These fields allow the bundle to be discussed in FDO and data-space terms without implementing the surrounding infrastructure.
 
 `bundle_id` can serve as an evidence object identifier. `fdo.profile_type` and `fdo.profile_version` declare profile information. `event_log_hash` provides an integrity reference to the execution trace. `risk_links` and `policy.policy_id` act as relation points to risk and governance objects.
+
+The `policy.policy_id` relation point should be read as review context in v0.1, not as an implemented registry binding or signed policy-object reference. The current prototype records which policy context was used for validation, but it does not make that policy externally resolvable or independently authenticated.
 
 | AEP element | FDO/data-space interpretation |
 | --- | --- |
