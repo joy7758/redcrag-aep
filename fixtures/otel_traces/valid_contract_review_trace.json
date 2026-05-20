@@ -1,0 +1,71 @@
+{
+  "trace_id": "trace-contract-review-valid-001",
+  "workflow": "contract_review_otel_demo",
+  "actor": {
+    "agent_id": "redcrag_contract_review_agent",
+    "kind": "synthetic_demo_agent"
+  },
+  "task": "Review a contract clause reference without storing full contract text.",
+  "spans": [
+    {
+      "span_id": "span-plan-001",
+      "parent_span_id": null,
+      "name": "agent.plan",
+      "start_time": "2026-05-20T10:00:00Z",
+      "end_time": "2026-05-20T10:00:05Z",
+      "attributes": {
+        "input.ref": "contract://synthetic-contract#summary",
+        "tool.purpose": "Plan a privacy-minimized contract review run."
+      }
+    },
+    {
+      "span_id": "span-tool-001",
+      "parent_span_id": "span-plan-001",
+      "name": "tool.retrieve_clause",
+      "start_time": "2026-05-20T10:00:06Z",
+      "end_time": "2026-05-20T10:00:20Z",
+      "attributes": {
+        "tool.name": "retrieve_clause",
+        "tool.purpose": "Retrieve clause reference and hash only.",
+        "tool.risk_level": "low",
+        "input.ref": "contract://synthetic-contract#clause-12.3",
+        "source_clause_ref": "clause-12.3",
+        "content.sha256": "8e8c1e4f3d2f66d46b982a0d2a16e9e47a33131c6bb4f72c8707bcb8a53061a6"
+      }
+    },
+    {
+      "span_id": "span-tool-002",
+      "parent_span_id": "span-tool-001",
+      "name": "tool.generate_risk_opinion",
+      "start_time": "2026-05-20T10:00:21Z",
+      "end_time": "2026-05-20T10:01:00Z",
+      "attributes": {
+        "tool.name": "generate_risk_opinion",
+        "tool.purpose": "Generate risk opinion from clause reference.",
+        "tool.risk_level": "high",
+        "output.ref": "review://synthetic-contract/risk-opinion-001",
+        "output.summary": "Liability limitation clause should receive legal review before approval.",
+        "source_clause_ref": "clause-12.3"
+      }
+    },
+    {
+      "span_id": "span-tool-003",
+      "parent_span_id": "span-tool-002",
+      "name": "tool.request_human_review",
+      "start_time": "2026-05-20T10:01:01Z",
+      "end_time": "2026-05-20T10:01:30Z",
+      "attributes": {
+        "tool.name": "request_human_review",
+        "tool.purpose": "Request legal reviewer approval for high-risk opinion.",
+        "tool.risk_level": "medium",
+        "tool.requires_receipt": true,
+        "tool.receipt_id": "receipt-legal-review-001",
+        "human_review.approved": true,
+        "human_review.reviewer": "synthetic_legal_reviewer",
+        "output.ref": "review://synthetic-contract/human-review-001",
+        "output.summary": "Reviewer approved escalation record for demo clause.",
+        "source_clause_ref": "clause-12.3"
+      }
+    }
+  ]
+}
