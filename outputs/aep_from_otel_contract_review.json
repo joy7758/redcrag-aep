@@ -1,0 +1,149 @@
+{
+  "actor": {
+    "agent_id": "redcrag_contract_review_agent",
+    "kind": "synthetic_demo_agent"
+  },
+  "completed_at": "2026-05-20T10:01:30Z",
+  "content_hashes": [
+    {
+      "hash_id": "hash-input-1-ref",
+      "sha256": "9bf30625f1a5df82c50f992f47d7bfafd975024575a4e7572239efac7b5fe0ae",
+      "target_path": "/input_refs/0/ref"
+    },
+    {
+      "hash_id": "hash-input-2-ref",
+      "sha256": "1dd049cf76bcacfc56be9fccc76bb35b9782729ddf3b84b38c3bd1ac6236b072",
+      "target_path": "/input_refs/1/ref"
+    },
+    {
+      "hash_id": "hash-output-1-summary",
+      "sha256": "e28451eb8956a5671f1f6981ecda6cd232eaf7bb393bf1ef568395ac3136f484",
+      "target_path": "/output_refs/0/summary"
+    },
+    {
+      "hash_id": "hash-output-2-ref",
+      "sha256": "053cb9097fb9deb4a29153913d3a02bc6c1335658fe08c121a079109479c6df3",
+      "target_path": "/output_refs/1/ref"
+    },
+    {
+      "hash_id": "hash-output-2-summary",
+      "sha256": "e04b6cd84c4aa5b50b3bd17f68ccec050eb9559bc66be80db8d3eeffe7fe0a22",
+      "target_path": "/output_refs/1/summary"
+    },
+    {
+      "hash_id": "hash-output-3-ref",
+      "sha256": "4fd4771ccabd824e51638a4af01fa1cbec098b6ad6e4fd552995a0153c31caeb",
+      "target_path": "/output_refs/2/ref"
+    },
+    {
+      "hash_id": "hash-output-3-summary",
+      "sha256": "a1ca3b19f3d0a9b6cba7b270ce39cb3bd53d65a7d9830a5d9dae3fb75b86ff01",
+      "target_path": "/output_refs/2/summary"
+    }
+  ],
+  "human_review": {
+    "approved": true,
+    "reviewers": [
+      "synthetic_legal_reviewer"
+    ]
+  },
+  "input_refs": [
+    {
+      "input_id": "input-1",
+      "kind": "otel_trace_input_ref",
+      "ref": "contract://synthetic-contract#summary",
+      "span_id": "span-plan-001"
+    },
+    {
+      "input_id": "input-2",
+      "kind": "otel_trace_input_ref",
+      "ref": "contract://synthetic-contract#clause-12.3",
+      "source_sha256": "8e8c1e4f3d2f66d46b982a0d2a16e9e47a33131c6bb4f72c8707bcb8a53061a6",
+      "span_id": "span-tool-001"
+    }
+  ],
+  "metadata": {
+    "otel_compatibility": "OpenTelemetry-style mapping demo only; not full OpenTelemetry compatibility.",
+    "source": "otel_to_aep_demo_converter",
+    "span_count": 4
+  },
+  "output_refs": [
+    {
+      "kind": "otel_trace_output_ref",
+      "output_id": "output-1",
+      "source_clause_ref": "clause-12.3",
+      "span_id": "span-tool-001",
+      "summary": "tool.retrieve_clause"
+    },
+    {
+      "kind": "otel_trace_output_ref",
+      "output_id": "output-2",
+      "ref": "review://synthetic-contract/risk-opinion-001",
+      "source_clause_ref": "clause-12.3",
+      "span_id": "span-tool-002",
+      "summary": "Liability limitation clause should receive legal review before approval."
+    },
+    {
+      "kind": "otel_trace_output_ref",
+      "output_id": "output-3",
+      "ref": "review://synthetic-contract/human-review-001",
+      "source_clause_ref": "clause-12.3",
+      "span_id": "span-tool-003",
+      "summary": "Reviewer approved escalation record for demo clause."
+    }
+  ],
+  "policy_results": [
+    {
+      "passed": true,
+      "policy_id": "otel_receipts_mapped",
+      "summary": "Mapped 1 receipt reference(s) from trace."
+    }
+  ],
+  "receipt_refs": [
+    {
+      "kind": "otel_trace_receipt_ref",
+      "receipt_id": "receipt-legal-review-001",
+      "summary": "Receipt imported from span span-tool-003.",
+      "tool_call_id": "span-tool-003"
+    }
+  ],
+  "run_id": "trace-contract-review-valid-001",
+  "schema_version": "aep-0.1",
+  "signature": {
+    "algorithm": "HMAC-SHA256-DEMO",
+    "key_hint": "demo-key",
+    "signed_at": "2026-05-20T14:17:15Z",
+    "value": "b0e144e041ebd7eafe61723c79373ecc6b72c9f3d3f590cda903eb69301f5a20"
+  },
+  "started_at": "2026-05-20T10:00:00Z",
+  "task": "Review a contract clause reference without storing full contract text.",
+  "tool_calls": [
+    {
+      "completed_at": "2026-05-20T10:00:20Z",
+      "purpose": "Retrieve clause reference and hash only.",
+      "risk_level": "low",
+      "started_at": "2026-05-20T10:00:06Z",
+      "tool_call_id": "span-tool-001",
+      "tool_name": "retrieve_clause"
+    },
+    {
+      "completed_at": "2026-05-20T10:01:00Z",
+      "purpose": "Generate risk opinion from clause reference.",
+      "risk_level": "high",
+      "started_at": "2026-05-20T10:00:21Z",
+      "tool_call_id": "span-tool-002",
+      "tool_name": "generate_risk_opinion"
+    },
+    {
+      "completed_at": "2026-05-20T10:01:30Z",
+      "purpose": "Request legal reviewer approval for high-risk opinion.",
+      "receipt_id": "receipt-legal-review-001",
+      "requires_receipt": true,
+      "risk_level": "medium",
+      "started_at": "2026-05-20T10:01:01Z",
+      "tool_call_id": "span-tool-003",
+      "tool_name": "request_human_review"
+    }
+  ],
+  "workflow": "contract_review_otel_demo"
+}

@@ -1,0 +1,74 @@
+{
+  "trace_id": "trace-customer-service-refund-valid-001",
+  "workflow": "customer_service_refund_otel_demo",
+  "actor": {
+    "agent_id": "redcrag_customer_service_agent",
+    "kind": "synthetic_demo_agent"
+  },
+  "task": "Handle a refund request using references and receipts without storing full personal information.",
+  "spans": [
+    {
+      "span_id": "span-tool-identity-001",
+      "parent_span_id": null,
+      "name": "tool.verify_identity",
+      "start_time": "2026-05-20T11:00:00Z",
+      "end_time": "2026-05-20T11:00:12Z",
+      "attributes": {
+        "tool.name": "verify_identity",
+        "tool.purpose": "Verify user identity using tokenized customer reference.",
+        "tool.risk_level": "medium",
+        "input.ref": "customer://tokenized/customer-ref-4482",
+        "output.ref": "identity-check://result/ok-001",
+        "output.summary": "Second-factor verification passed for tokenized customer reference.",
+        "human_review.approved": true,
+        "human_review.reviewer": "second_factor_verification"
+      }
+    },
+    {
+      "span_id": "span-tool-order-001",
+      "parent_span_id": "span-tool-identity-001",
+      "name": "tool.query_order",
+      "start_time": "2026-05-20T11:00:13Z",
+      "end_time": "2026-05-20T11:00:25Z",
+      "attributes": {
+        "tool.name": "query_order",
+        "tool.purpose": "Query order status by order reference.",
+        "tool.risk_level": "low",
+        "input.ref": "order://synthetic-order-7788",
+        "output.ref": "order-check://synthetic-order-7788/eligible",
+        "output.summary": "Order is eligible for refund under synthetic policy."
+      }
+    },
+    {
+      "span_id": "span-tool-refund-001",
+      "parent_span_id": "span-tool-order-001",
+      "name": "tool.request_refund",
+      "start_time": "2026-05-20T11:00:26Z",
+      "end_time": "2026-05-20T11:00:45Z",
+      "attributes": {
+        "tool.name": "request_refund",
+        "tool.purpose": "Request refund after verified identity and eligible order.",
+        "tool.risk_level": "high",
+        "tool.requires_receipt": true,
+        "tool.receipt_id": "receipt-refund-7788",
+        "output.ref": "refund://synthetic-order-7788/receipt",
+        "output.summary": "Refund request created for tokenized order reference."
+      }
+    },
+    {
+      "span_id": "span-tool-refund-receipt-001",
+      "parent_span_id": "span-tool-refund-001",
+      "name": "tool.record_refund_receipt",
+      "start_time": "2026-05-20T11:00:46Z",
+      "end_time": "2026-05-20T11:00:55Z",
+      "attributes": {
+        "tool.name": "record_refund_receipt",
+        "tool.purpose": "Record external refund receipt reference.",
+        "tool.risk_level": "low",
+        "receipt_id": "receipt-refund-7788",
+        "output.ref": "receipt://refund/receipt-refund-7788",
+        "output.summary": "External refund system returned a receipt id."
+      }
+    }
+  ]
+}

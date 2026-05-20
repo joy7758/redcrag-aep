@@ -1,0 +1,67 @@
+{
+  "trace_id": "trace-contract-review-missing-receipt-001",
+  "workflow": "contract_review_otel_demo",
+  "actor": {
+    "agent_id": "redcrag_contract_review_agent",
+    "kind": "synthetic_demo_agent"
+  },
+  "task": "Review a contract clause reference and intentionally omit a required receipt.",
+  "spans": [
+    {
+      "span_id": "span-plan-001",
+      "parent_span_id": null,
+      "name": "agent.plan",
+      "start_time": "2026-05-20T10:05:00Z",
+      "end_time": "2026-05-20T10:05:05Z",
+      "attributes": {
+        "input.ref": "contract://synthetic-contract#summary"
+      }
+    },
+    {
+      "span_id": "span-tool-001",
+      "parent_span_id": "span-plan-001",
+      "name": "tool.retrieve_clause",
+      "start_time": "2026-05-20T10:05:06Z",
+      "end_time": "2026-05-20T10:05:20Z",
+      "attributes": {
+        "tool.name": "retrieve_clause",
+        "tool.purpose": "Retrieve clause reference and hash only.",
+        "tool.risk_level": "low",
+        "input.ref": "contract://synthetic-contract#clause-12.3",
+        "source_clause_ref": "clause-12.3"
+      }
+    },
+    {
+      "span_id": "span-tool-002",
+      "parent_span_id": "span-tool-001",
+      "name": "tool.generate_risk_opinion",
+      "start_time": "2026-05-20T10:05:21Z",
+      "end_time": "2026-05-20T10:06:00Z",
+      "attributes": {
+        "tool.name": "generate_risk_opinion",
+        "tool.purpose": "Generate risk opinion from clause reference.",
+        "tool.risk_level": "high",
+        "output.ref": "review://synthetic-contract/risk-opinion-missing-receipt",
+        "output.summary": "High-risk clause should be reviewed before approval.",
+        "source_clause_ref": "clause-12.3"
+      }
+    },
+    {
+      "span_id": "span-tool-003",
+      "parent_span_id": "span-tool-002",
+      "name": "tool.request_human_review",
+      "start_time": "2026-05-20T10:06:01Z",
+      "end_time": "2026-05-20T10:06:30Z",
+      "attributes": {
+        "tool.name": "request_human_review",
+        "tool.purpose": "Request legal reviewer approval for high-risk opinion.",
+        "tool.risk_level": "medium",
+        "tool.requires_receipt": true,
+        "human_review.approved": true,
+        "human_review.reviewer": "synthetic_legal_reviewer",
+        "output.summary": "Reviewer approval exists, but the receipt id is missing.",
+        "source_clause_ref": "clause-12.3"
+      }
+    }
+  ]
+}
