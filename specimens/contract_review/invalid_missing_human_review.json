@@ -1,0 +1,95 @@
+{
+  "actor": "redcrag_contract_review_agent",
+  "completed_at": "2026-05-20T09:04:00Z",
+  "content_hashes": [
+    {
+      "hash_id": "hash-output-risk-summary",
+      "sha256": "fdbf3dec23ea309065cdbc1ee6eaf0362d15640d784d66d65dddcf071c8190b7",
+      "target_path": "/output_refs/0/summary"
+    }
+  ],
+  "human_review": {
+    "approved": false,
+    "decision": "not_reviewed_for_specimen",
+    "reviewed_at": "2026-05-20T09:03:45Z",
+    "reviewed_tool_call_ids": [],
+    "reviewer": "demo_legal_reviewer"
+  },
+  "input_refs": [
+    {
+      "input_id": "input-contract-001",
+      "kind": "contract_clause_reference",
+      "sha256": "0b87d704fcfa973e18d008c5a411f2238f0e2943dc267bd98018ac9a0c5c9f39",
+      "source_location": "contract://demo-contract#clause-12.3",
+      "summary": "Liability limitation clause reference only; no full contract text stored."
+    }
+  ],
+  "metadata": {
+    "demo": true,
+    "privacy_boundary": "No full contract text is stored in this AEP bundle."
+  },
+  "output_refs": [
+    {
+      "kind": "contract_review_conclusion",
+      "output_id": "output-risk-001",
+      "risk_level": "high",
+      "source_clause_ref": "clause-12.3",
+      "summary": "识别到责任限制条款缺少间接损失上限，建议进入人工复核。"
+    }
+  ],
+  "policy_results": [
+    {
+      "passed": false,
+      "policy_id": "high_risk_requires_human_review",
+      "summary": "Specimen intentionally lacks approved human review for the high-risk call."
+    }
+  ],
+  "receipt_refs": [
+    {
+      "issued_at": "2026-05-20T09:03:40Z",
+      "kind": "human_review_receipt",
+      "receipt_id": "receipt-hr-001",
+      "summary": "Legal reviewer approved escalation record for demo clause.",
+      "tool_call_id": "tool-003"
+    }
+  ],
+  "run_id": "redcrag-contract-demo-run-001",
+  "schema_version": "aep-0.1",
+  "signature": {
+    "algorithm": "HMAC-SHA256-DEMO",
+    "key_hint": "demo-key",
+    "signed_at": "2026-05-20T12:33:19Z",
+    "value": "7378328e7ff1d3636eb9c940cf8248a03ec9a549dc35a4b7729b1c0a89388705"
+  },
+  "started_at": "2026-05-20T09:00:00Z",
+  "task": "Review a contract clause reference without storing the full contract text.",
+  "tool_calls": [
+    {
+      "completed_at": "2026-05-20T09:00:50Z",
+      "purpose": "Retrieve clause reference and hash only.",
+      "risk_level": "low",
+      "started_at": "2026-05-20T09:00:20Z",
+      "tool_call_id": "tool-001",
+      "tool_name": "clause_retriever"
+    },
+    {
+      "completed_at": "2026-05-20T09:02:20Z",
+      "purpose": "Generate a risk opinion from the referenced clause.",
+      "risk_level": "medium",
+      "started_at": "2026-05-20T09:01:00Z",
+      "tool_call_id": "tool-002",
+      "tool_name": "risk_opinion_generator"
+    },
+    {
+      "completed_at": "2026-05-20T09:03:10Z",
+      "purpose": "Escalate a high-risk clause conclusion for human review.",
+      "receipt_id": "receipt-hr-001",
+      "requires_receipt": true,
+      "risk_level": "high",
+      "started_at": "2026-05-20T09:02:30Z",
+      "tool_call_id": "tool-003",
+      "tool_name": "high_risk_clause_escalation"
+    }
+  ],
+  "workflow": "contract_review_demo"
+}

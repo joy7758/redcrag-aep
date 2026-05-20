@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://redcrag.local/schemas/aep.schema.json",
+  "title": "RedCrag AEP Minimal Profile",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "workflow",
+    "actor",
+    "task",
+    "started_at",
+    "completed_at",
+    "tool_calls",
+    "input_refs",
+    "output_refs",
+    "receipt_refs",
+    "human_review",
+    "policy_results",
+    "content_hashes",
+    "signature",
+    "metadata"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "run_id": { "type": "string" },
+    "workflow": { "type": "string" },
+    "actor": { "type": "string" },
+    "task": { "type": "string" },
+    "started_at": { "type": "string" },
+    "completed_at": { "type": "string" },
+    "tool_calls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool_name", "started_at", "completed_at", "purpose"]
+      }
+    },
+    "input_refs": { "type": "array" },
+    "output_refs": { "type": "array" },
+    "receipt_refs": { "type": "array" },
+    "human_review": { "type": ["object", "array"] },
+    "policy_results": { "type": "array" },
+    "content_hashes": { "type": "array" },
+    "signature": {
+      "type": "object",
+      "required": ["algorithm", "key_hint", "signed_at", "value"],
+      "properties": {
+        "algorithm": { "const": "HMAC-SHA256-DEMO" },
+        "key_hint": { "type": "string" },
+        "signed_at": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    },
+    "metadata": { "type": "object" }
+  },
+  "additionalProperties": true
+}
