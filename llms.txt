@@ -1,0 +1,43 @@
+# RedCrag AEP
+
+## 一句话
+
+RedCrag AEP（Agent Execution Profile，智能体执行证据配置文件）给智能体关键动作生成可签名、可校验、可复核的执行证据。
+
+## 当前版本
+
+v0.2-alpha
+
+## 核心能力
+
+- AEP（Agent Execution Profile，智能体执行证据配置文件）最小字段。
+- demo（demonstration，演示）级签名。
+- validator（validator，校验器）。
+- 合同审查样例。
+- OpenTelemetry（开放遥测标准）风格 trace（追踪记录）到 AEP 映射。
+- selfcheck-otel 自检。
+
+## 关键命令
+
+```bash
+python -m redcrag_aep.cli demo
+python -m redcrag_aep.cli selfcheck-otel
+python -m unittest discover -s tests
+```
+
+## 重要边界
+
+- 不证明模型一定正确。
+- 不替代法律意见。
+- 不保证合规。
+- 不保存真实客户数据。
+- 不完整兼容 OpenTelemetry（开放遥测标准）。
+- demo（demonstration，演示）级签名不是生产级签名。
+
+## 重要文件
+
+- `README.md`
+- `docs/agent_retrieval_card_cn.md`
+- `docs/opentelemetry_to_aep_mapping_cn.md`
+- `docs/public_release_checklist_cn.md`
+- `REDCRAG_V0_2_ALPHA_SUMMARY.md`

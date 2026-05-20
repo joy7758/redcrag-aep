@@ -64,3 +64,16 @@ python -m unittest discover -s tests
 - `docs/self_validation_without_design_partner_cn.md`
 - `docs/public_release_checklist_cn.md`
 - `docs/agent_retrieval_card_cn.md`
+
+## v0.2-alpha public-ready 公开准备材料
+
+- `docs/public_repository_readiness_cn.md`
+- `docs/technical_blog_draft_v0_2_cn.md`
+- `docs/platform_reader_quickstart_cn.md`
+- `docs/langfuse_adapter_plan_cn.md`
+- `docs/cozeloop_adapter_plan_cn.md`
+- `docs/release_announcement_draft_cn.md`
+- `llms.txt`
+- `ai-index.json`
+
+这些文件用于公开仓库、技术博客、平台方阅读和智能体检索，不改变核心代码功能。

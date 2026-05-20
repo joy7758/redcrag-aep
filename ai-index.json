@@ -1,0 +1,50 @@
+{
+  "project_name": "RedCrag AEP",
+  "version": "v0.2-alpha",
+  "one_sentence": "RedCrag AEP (Agent Execution Profile, 智能体执行证据配置文件) gives agent critical actions signable, validatable, and reviewable execution evidence.",
+  "capabilities": [
+    "AEP minimal fields",
+    "demo-grade signing",
+    "validator checks",
+    "contract review specimens",
+    "OpenTelemetry-style trace to AEP mapping",
+    "selfcheck-otel self-validation"
+  ],
+  "inputs": [
+    "AEP JSON evidence bundles",
+    "OpenTelemetry-style trace JSON files",
+    "synthetic contract review traces",
+    "synthetic customer service traces"
+  ],
+  "outputs": [
+    "signed AEP evidence bundles",
+    "validator results",
+    "failed check summaries",
+    "self-validation summaries"
+  ],
+  "commands": [
+    "python -m redcrag_aep.cli demo",
+    "python -m redcrag_aep.cli selfcheck-otel",
+    "python -m unittest discover -s tests"
+  ],
+  "important_files": [
+    "README.md",
+    "docs/agent_retrieval_card_cn.md",
+    "docs/opentelemetry_to_aep_mapping_cn.md",
+    "docs/public_release_checklist_cn.md",
+    "REDCRAG_V0_2_ALPHA_SUMMARY.md"
+  ],
+  "boundaries": [
+    "Does not prove model correctness",
+    "Does not replace legal advice",
+    "Does not guarantee compliance",
+    "Does not store real customer data",
+    "Does not fully implement OpenTelemetry compatibility",
+    "Demo-grade signing is not production signing"
+  ],
+  "next_steps": [
+    "Human-review public wording",
+    "Decide whether to create a public remote repository",
+    "Choose Langfuse or CozeLoop adapter prototype direction"
+  ]
+}
