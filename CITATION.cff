@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use RedCrag AEP, please cite the v0.2-alpha release."
+title: "RedCrag AEP: Agent Execution Profile for Verifiable Agent Action Evidence"
+version: "v0.2-alpha"
+authors:
+  - family-names: "RedCrag"
+    given-names: "Contributors"
+repository-code: "https://github.com/joy7758/redcrag-aep"
+url: "https://github.com/joy7758/redcrag-aep/releases/tag/v0.2-alpha"
+date-released: "2026-05-20"
+abstract: "RedCrag AEP is a research prototype for verifiable execution evidence around agent critical actions. It provides demo-grade signing, a validator, contract-review specimens, and OpenTelemetry-style trace mapping for local self-validation. The project is a profile prototype, not a production compliance system or production signing system."

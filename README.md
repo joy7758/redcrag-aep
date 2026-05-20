@@ -77,3 +77,14 @@ python -m unittest discover -s tests
 - `ai-index.json`
 
 这些文件用于公开仓库、技术博客、平台方阅读和智能体检索，不改变核心代码功能。
+
+## Publication and citation materials
+
+- `docs/blog/redcrag_aep_v0_2_alpha_cn.md`
+- `docs/blog/redcrag_aep_v0_2_alpha_short_cn.md`
+- `docs/blog/social_posts_cn.md`
+- `docs/citation_guide_cn.md`
+- `docs/reuse_card_for_agents_cn.md`
+- `CITATION.cff`
+
+These materials support public articles, citation, agent retrieval, and reuse. They do not change the core code behavior. `CITATION.cff` uses Citation File Format（引文文件格式）for citation metadata.

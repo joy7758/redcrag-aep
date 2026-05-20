@@ -41,3 +41,14 @@ python -m unittest discover -s tests
 - `docs/opentelemetry_to_aep_mapping_cn.md`
 - `docs/public_release_checklist_cn.md`
 - `REDCRAG_V0_2_ALPHA_SUMMARY.md`
+
+## Citation and publication materials
+
+- `docs/blog/redcrag_aep_v0_2_alpha_cn.md`
+- `docs/blog/redcrag_aep_v0_2_alpha_short_cn.md`
+- `docs/blog/social_posts_cn.md`
+- `docs/citation_guide_cn.md`
+- `docs/reuse_card_for_agents_cn.md`
+- `CITATION.cff`
+
+这些文件用于技术短文、引用指南、智能体复用，不改变核心代码功能。
