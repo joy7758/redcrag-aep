@@ -35,3 +35,13 @@ This is not a general agent platform, not a complete compliance product, not leg
 - 做真实 OpenTelemetry（开放遥测标准）到 AEP（Agent Execution Profile，智能体执行证据配置文件）的映射。
 - 做 CozeLoop（扣子罗盘）或 Langfuse（开源大语言模型工程平台）接头。
 - 找合同审查或企业客服智能体做设计伙伴试点。
+
+## v0.1 对外材料
+
+- `docs/public_demo_walkthrough_cn.md`
+- `docs/trial_package_for_contract_review_cn.md`
+- `docs/platform_embedding_brief_cn.md`
+- `docs/design_partner_outreach_cn.md`
+- `docs/research_note_v0_1_cn.md`
+
+这些文档用于演示、试点沟通、平台嵌入沟通和研究记录，不改变代码功能。
