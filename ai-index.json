@@ -34,6 +34,14 @@
     "docs/public_release_checklist_cn.md",
     "REDCRAG_V0_2_ALPHA_SUMMARY.md"
   ],
+  "publication_materials": [
+    "docs/blog/redcrag_aep_v0_2_alpha_cn.md",
+    "docs/blog/redcrag_aep_v0_2_alpha_short_cn.md",
+    "docs/blog/social_posts_cn.md",
+    "docs/citation_guide_cn.md",
+    "docs/reuse_card_for_agents_cn.md",
+    "CITATION.cff"
+  ],
   "boundaries": [
     "Does not prove model correctness",
     "Does not replace legal advice",
