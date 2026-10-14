@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/aep/aep-event.schema.json",
+  "title": "Risk-linked AEP Event",
+  "type": "object",
+  "required": [
+    "event_id",
+    "run_id",
+    "timestamp",
+    "actor",
+    "action",
+    "tool",
+    "input_hash",
+    "output_hash",
+    "policy_decision",
+    "execution_status",
+    "risk_refs",
+    "prev_event_hash",
+    "event_hash"
+  ],
+  "properties": {
+    "event_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "actor": { "type": "string" },
+    "action": {
+      "type": "string",
+      "const": "tool_call"
+    },
+    "tool": { "type": "string" },
+    "input_hash": { "type": "string" },
+    "output_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "policy_decision": {
+      "type": "string",
+      "enum": [
+        "allow",
+        "deny"
+      ]
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": [
+        "executed",
+        "blocked",
+        "error"
+      ]
+    },
+    "risk_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "prev_event_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "event_hash": { "type": "string" }
+  }
+}

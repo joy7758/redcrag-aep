@@ -1,0 +1,15 @@
+{
+  "scanner": "demo-scanner",
+  "scan_id": "scan-write-file-risk-001",
+  "generated_at": "2026-01-01T00:00:00Z",
+  "findings": [
+    {
+      "risk_id": "RISK-001",
+      "source": "hackmyagent",
+      "severity": "high",
+      "category": "over-permissioned-tool",
+      "target": "write_file",
+      "message": "Tool write_file can modify local files."
+    }
+  ]
+}

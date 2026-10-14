@@ -1,0 +1,47 @@
+{
+  "aep_version": "0.1",
+  "bundle_id": "bundle-pass-example",
+  "fdo": {
+    "object_id": "fdo:demo:pass-example",
+    "profile_type": "risk-linked-aep",
+    "profile_version": "0.1",
+    "pid_like_id": "pid:demo:pass-example"
+  },
+  "agent": {
+    "agent_id": "demo-agent-001",
+    "agent_name": "Deterministic Demo Agent",
+    "agent_version": "0.1"
+  },
+  "execution": {
+    "run_id": "run-pass-example",
+    "scenario": "pass",
+    "task_id": "task-demo-001",
+    "started_at": "2026-01-01T00:00:00Z",
+    "ended_at": "2026-01-01T00:00:03Z",
+    "environment_hash": "sha256:example"
+  },
+  "policy": {
+    "policy_id": "policy-demo-001",
+    "allowed_tools": [
+      "read_file",
+      "summarize_text"
+    ],
+    "denied_tools": [
+      "write_file",
+      "shell_exec",
+      "send_email"
+    ]
+  },
+  "risk_links": [],
+  "evidence": {
+    "event_log": "aep-events.jsonl",
+    "event_log_hash": "sha256:example",
+    "event_count": 2,
+    "previous_bundle_hash": null
+  },
+  "integrity": {
+    "signature": "hmac-sha256:example",
+    "signing_key_id": "demo-hmac-key-001",
+    "signature_method": "demo-hmac-sha256"
+  }
+}

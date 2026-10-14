@@ -1,0 +1,14 @@
+flowchart TD
+    A[Scanner risk report] --> B[Demo agent runtime]
+    B --> C[AEP collector]
+    C --> D[AEP event log JSONL]
+    C --> E[AEP bundle JSON]
+    D --> F[AEP validator]
+    E --> F
+    A --> F
+    F --> G{Validation result}
+    G --> H[PASS]
+    G --> I[WARN]
+    G --> J[FAIL]
+
+    E --> K[FDO/data-space evidence object shape]

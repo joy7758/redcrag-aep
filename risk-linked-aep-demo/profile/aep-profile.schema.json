@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/aep/aep-profile.schema.json",
+  "title": "Risk-linked Agent Evidence Profile Bundle",
+  "type": "object",
+  "required": [
+    "aep_version",
+    "bundle_id",
+    "fdo",
+    "agent",
+    "execution",
+    "policy",
+    "risk_links",
+    "evidence",
+    "integrity"
+  ],
+  "properties": {
+    "aep_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "bundle_id": {
+      "type": "string"
+    },
+    "fdo": {
+      "type": "object",
+      "required": [
+        "object_id",
+        "profile_type",
+        "profile_version",
+        "pid_like_id"
+      ],
+      "properties": {
+        "object_id": { "type": "string" },
+        "profile_type": { "type": "string" },
+        "profile_version": { "type": "string" },
+        "pid_like_id": { "type": "string" }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "required": [
+        "agent_id",
+        "agent_name",
+        "agent_version"
+      ],
+      "properties": {
+        "agent_id": { "type": "string" },
+        "agent_name": { "type": "string" },
+        "agent_version": { "type": "string" }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "required": [
+        "run_id",
+        "scenario",
+        "task_id",
+        "started_at",
+        "ended_at",
+        "environment_hash"
+      ],
+      "properties": {
+        "run_id": { "type": "string" },
+        "scenario": { "type": "string" },
+        "task_id": { "type": "string" },
+        "started_at": { "type": "string" },
+        "ended_at": { "type": "string" },
+        "environment_hash": { "type": "string" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "policy_id",
+        "allowed_tools",
+        "denied_tools"
+      ],
+      "properties": {
+        "policy_id": { "type": "string" },
+        "allowed_tools": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "denied_tools": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "risk_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "risk_id",
+          "source",
+          "severity",
+          "category",
+          "target",
+          "message"
+        ],
+        "properties": {
+          "risk_id": { "type": "string" },
+          "source": { "type": "string" },
+          "severity": { "type": "string" },
+          "category": { "type": "string" },
+          "target": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "event_log",
+        "event_log_hash",
+        "event_count",
+        "previous_bundle_hash"
+      ],
+      "properties": {
+        "event_log": { "type": "string" },
+        "event_log_hash": { "type": "string" },
+        "event_count": { "type": "integer" },
+        "previous_bundle_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": [
+        "signature",
+        "signing_key_id",
+        "signature_method"
+      ],
+      "properties": {
+        "signature": { "type": "string" },
+        "signing_key_id": { "type": "string" },
+        "signature_method": { "type": "string" }
+      }
+    }
+  }
+}
